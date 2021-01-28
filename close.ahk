@@ -1,3 +1,2 @@
-Send {ALT};
-Send {F4};
+WinClose, A
 return
