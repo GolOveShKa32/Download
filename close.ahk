@@ -1,3 +1,3 @@
-Delay, 5000
+Sleep, 5000
 WinClose, A
 return
