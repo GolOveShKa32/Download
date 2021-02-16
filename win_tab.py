@@ -1,2 +1,0 @@
-Send {LWin}{Tab};
-return
