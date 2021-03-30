@@ -1,5 +1,5 @@
-Sleep, 3000
+Sleep, 1000
 WinClose, A
-Sleep, 3000
+Sleep, 1000
 Send, {ENTER}
 return
