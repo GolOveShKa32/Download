@@ -1,2 +1,2 @@
-Click 100, 200, 0
+Click 100, 200
 return
