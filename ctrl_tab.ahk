@@ -1,2 +1,0 @@
-Send {LCtrl}{Tab}
-return
