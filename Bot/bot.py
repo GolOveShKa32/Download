@@ -1,6 +1,5 @@
 import datetime
 import discord
-from bs4 import BeautifulSoup
 from threading import Thread
 from discord.ext import commands
 from discord.ext import tasks
@@ -85,15 +84,14 @@ async def on_message(ctx):
         
         CMD = ctx.content.split()[0][1:]
         params = ctx.content.replace(ctx.content.split()[0], '')
-        
+        cmd = ''
+
         for c, v in VA_CMD_LIST.items():
             for x in v:
                 vrt = fuzz.ratio(CMD, x)
-                #print(CMD, x, vrt)
+                print(CMD, x, vrt)
                 if vrt >= 85:
                     cmd = c
-                else:
-                    cmd = ''
         
 
         if cmd == 'play':
@@ -450,43 +448,39 @@ async def online():
     Status = Net.Get("all", "status", "json")
 
     for guild in Status:
-        try:
-            if guild:
-                if 'guild' in guild:
-                    Guild = client.get_guild(guild['guild'])
-                    channel = Guild.get_channel(guild['channel'])
+        if guild:
+            if 'guild' in guild:
+                Guild = client.get_guild(guild['guild'])
+                channel = Guild.get_channel(guild['channel'])
+
+                try:
                     ctx = await channel.fetch_message(guild['message'])
+                except:
+                    Net.Set(f"id{guild['guild']}", "status", {}, "json")
+                    break
 
-                    value = '-------------------------'
-                    emb = discord.Embed(title = 'Онлайн лист', color = discord.Color.from_rgb(0,200,0))
+                value = '-------------------------'
+                emb = discord.Embed(title = 'Онлайн лист', color = discord.Color.from_rgb(0,200,0))
 
-                    for member in ctx.guild.members:
-                        if str(member.status) != 'offline':
-                            message = f"{member.name} - Online"
-                            emb.add_field(name = message, value = value, inline = False)
-
-                            if member.name in guild['members']:
-                                guild['members'].pop(member.name)
-
-                        elif member.name not in guild['members']:
-                            now = datetime.datetime.now()
-                            guild['members'][member.name] = f"{now.hour}:{now.minute}:{now.second} / {now.day}.{now.month}.{now.year}"
-                    
-                    Net.Set(f"id{guild['guild']}", "status", guild, "json")
-                    
-                    for member in guild['members']:
-                        message = f"{member} - {guild['members'][member]}"
+                for member in ctx.guild.members:
+                    if str(member.status) != 'offline':
+                        message = f"{member.name} - Online"
                         emb.add_field(name = message, value = value, inline = False)
 
-                    await ctx.edit(embed = emb)
-                else:
-                    guild = Status['guild']
-                    Status.remove(guild)
-                    Net.Set(f"id{guild}", "status", Status, "json")
-        except discord.NotFound:
-            guild = Status['guild']
-            Status.remove(guild)
-            Net.Set(f"id{guild}", "status", Status, "json")
+                        if member.name in guild['members']:
+                            guild['members'].pop(member.name)
+
+                    elif member.name not in guild['members']:
+                        now = datetime.datetime.now()
+                        guild['members'][member.name] = f"{now.hour}:{now.minute}:{now.second} / {now.day}.{now.month}.{now.year}"
+                
+                Net.Set(f"id{guild['guild']}", "status", guild, "json")
+                
+                for member in guild['members']:
+                    message = f"{member} - {guild['members'][member]}"
+                    emb.add_field(name = message, value = value, inline = False)
+
+                await ctx.edit(embed = emb)
 
 
 # Авто удаление временных голосовых каналов
@@ -529,4 +523,4 @@ async def help(ctx):
     await ctx.channel.send(embed = emb)
 
 
-client.run('')
+client.run('NzAyMTg1MzM1MDg5NjU5OTA1.GK091H.29E0CygMrQ8C0NXWay_SJMUKGGoVrjNmEqP90c')
