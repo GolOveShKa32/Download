@@ -76,7 +76,7 @@ def music(url, check=True):
         track = search(url)
 
     with YoutubeDL() as ydl:
-        ydl_info = ydl.extract_info(track, download=False)
+        ydl_info = ydl.extract_info(track.replace(' ', ''), download=False)
         rtn = {
             'title': ydl_info['title'],
             'img': ydl_info['thumbnails'][26]['url']
@@ -191,3 +191,5 @@ def search(query):
             url = f"https://www.youtube.com/watch?v={Video['videoId']}"
 
     return url
+
+

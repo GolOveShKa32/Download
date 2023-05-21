@@ -89,7 +89,7 @@ async def on_message(ctx):
         for c, v in VA_CMD_LIST.items():
             for x in v:
                 vrt = fuzz.ratio(CMD, x)
-                print(CMD, x, vrt)
+                #print(CMD, x, vrt)
                 if vrt >= 85:
                     cmd = c
         
@@ -277,12 +277,12 @@ async def player(ctx, info):
         color=discord.Colour.yellow())
 
     emb.set_author(
-        name="Embed Author",
+        name=ctx.author.name,
         url="https://disnake.dev/",
-        icon_url="https://disnake.dev/assets/disnake-logo.png")
+        icon_url=ctx.author.avatar.url)
     
     emb.set_thumbnail(url=info['img'])
-
+    
     message = await ctx.channel.send(embed = emb)
 
     try: await PLAYER.delete()
@@ -523,4 +523,4 @@ async def help(ctx):
     await ctx.channel.send(embed = emb)
 
 
-client.run('NzAyMTg1MzM1MDg5NjU5OTA1.GK091H.29E0CygMrQ8C0NXWay_SJMUKGGoVrjNmEqP90c')
+client.run('NzAyMTg1MzM1MDg5NjU5OT :::: A1.G6Gp3g.opcGxZSeo6 :::: sKPk6sd9PIEbMfjtgYk_0sN3OQYk')

@@ -2,8 +2,8 @@ import json
 import sqlite3
 from os import path
 
-
-db = sqlite3.connect('bot.db')
+Path = path.dirname(path.abspath(__file__)) + path.sep
+db = sqlite3.connect(Path+'bot.db')
 
 sql = db.cursor()
 
